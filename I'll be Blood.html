@@ -1,0 +1,1149 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'll be Blood</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+:root {
+    --red: #ff173f;
+    --dark-red: #8b001e;
+    --black: #080608;
+    --panel: #10080c;
+    --white: #f8edf0;
+    --gray: #b39ba4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans TC', sans-serif;
+    overflow-x: hidden;
+}
+
+/* 像素格線 */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.12;
+    background: repeating-linear-gradient(
+        transparent 0px,
+        transparent 3px,
+        #000 4px
+    );
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 76px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    background: rgba(8, 6, 8, 0.94);
+    border-bottom: 1px solid rgba(255, 23, 63, 0.65);
+    box-shadow: 0 3px 25px rgba(255, 0, 40, 0.08);
+    backdrop-filter: blur(12px);
+}
+
+/* 左側 LOGO 預留區 */
+.logo-area {
+    width: 210px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(255, 23, 63, 0.7);
+    color: var(--red);
+    font: 10px 'Press Start 2P', monospace;
+    letter-spacing: 1px;
+    text-shadow: 0 0 12px var(--red);
+    flex-shrink: 0;
+}
+
+.logo-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* 右側導覽 */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav a {
+    color: #d7c3ca;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.25s;
+    white-space: nowrap;
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--red);
+    text-shadow: 0 0 12px var(--red);
+}
+
+.menu-button {
+    display: none;
+    padding: 9px 12px;
+    color: var(--red);
+    background: transparent;
+    border: 1px solid var(--red);
+    cursor: pointer;
+}
+
+/* =========================
+   四個區塊共用
+========================= */
+
+section {
+    position: relative;
+    padding: 110px 9%;
+    scroll-margin-top: 76px;
+}
+
+.section-label {
+    color: var(--red);
+    font: 10px 'Press Start 2P', monospace;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 900;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.section-title span {
+    color: var(--red);
+    text-shadow: 0 0 20px rgba(255, 23, 63, 0.55);
+}
+
+.section-text {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 2.2;
+}
+
+/* =========================
+   第一區：首頁主視覺
+========================= */
+
+.hero {
+    min-height: 100vh;
+    padding: 140px 9% 90px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    isolation: isolate;
+    background: #090609;
+}
+
+/* 巷弄背景：無人物、純 CSS 繪製 */
+.alley {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 50% 65%,
+            rgba(255, 0, 48, 0.23),
+            transparent 48%
+        ),
+        linear-gradient(
+            180deg,
+            #09050b 0%,
+            #210711 45%,
+            #10060c 100%
+        );
+}
+
+/* 左右巷弄建築 */
+.building {
+    position: absolute;
+    top: 0;
+    bottom: 22%;
+    width: 43%;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 27px,
+            rgba(255, 25, 65, 0.15) 28px,
+            transparent 30px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 37px,
+            rgba(255, 25, 65, 0.13) 38px,
+            transparent 40px
+        ),
+        linear-gradient(90deg, #10070d, #260a16);
+    border-bottom: 2px solid #5b1025;
+}
+
+.building.left {
+    left: -4%;
+    clip-path: polygon(0 0, 100% 9%, 100% 100%, 0 100%);
+    transform: perspective(400px) rotateY(9deg);
+    transform-origin: left;
+}
+
+.building.right {
+    right: -4%;
+    clip-path: polygon(0 9%, 100% 0, 100% 100%, 0 100%);
+    transform: perspective(400px) rotateY(-9deg);
+    transform-origin: right;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 32px,
+            rgba(255, 25, 65, 0.16) 33px,
+            transparent 35px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 43px,
+            rgba(255, 25, 65, 0.14) 44px,
+            transparent 46px
+        ),
+        linear-gradient(270deg, #10070d, #2c0a18);
+}
+
+/* 巷弄深處 */
+.alley-center {
+    position: absolute;
+    width: 22%;
+    height: 60%;
+    left: 39%;
+    top: 15%;
+    background: linear-gradient(
+        180deg,
+        #120a18,
+        #200b19 65%,
+        #0b070b
+    );
+    border-left: 1px solid rgba(255, 23, 63, 0.35);
+    border-right: 1px solid rgba(255, 23, 63, 0.35);
+}
+
+/* 地面透視與雨水反光 */
+.ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 36%;
+    background:
+        repeating-linear-gradient(
+            100deg,
+            transparent 0px,
+            transparent 75px,
+            rgba(255, 23, 63, 0.3) 77px,
+            transparent 80px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 23px,
+            rgba(255, 23, 63, 0.2) 24px,
+            transparent 25px
+        ),
+        linear-gradient(180deg, #1a0914, #050407);
+    clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+}
+
+.ground::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(255, 0, 45, 0.25),
+        transparent
+    );
+    filter: blur(10px);
+}
+
+/* 霓虹招牌 */
+.neon-sign {
+    position: absolute;
+    z-index: 1;
+    padding: 15px 12px;
+    color: #ff526e;
+    border: 2px solid #ff173f;
+    background: rgba(20, 0, 8, 0.7);
+    font: 11px 'Press Start 2P', monospace;
+    writing-mode: vertical-rl;
+    text-shadow: 0 0 8px #ff173f, 0 0 20px #ff173f;
+    box-shadow: 0 0 12px #ff173f, inset 0 0 12px #ff173f;
+    animation: neon-flicker 5s infinite;
+}
+
+.sign-left {
+    top: 22%;
+    left: 8%;
+}
+
+.sign-right {
+    top: 18%;
+    right: 9%;
+    color: #ff8ba0;
+    border-color: #ff607e;
+    box-shadow: 0 0 12px #ff173f, inset 0 0 12px #ff173f;
+    animation-delay: 1.5s;
+}
+
+@keyframes neon-flicker {
+    0%, 18%, 20%, 55%, 57%, 100% { opacity: 1; }
+    19%, 56% { opacity: 0.65; }
+}
+
+/* 電線 */
+.wire {
+    position: absolute;
+    top: 14%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #3e1727;
+    box-shadow: 0 4px 0 rgba(255, 23, 63, 0.25);
+    transform: rotate(-4deg);
+}
+
+/* 首頁文字 */
+.hero-content {
+    position: relative;
+    z-index: 5;
+    max-width: 760px;
+}
+
+.hero-tag {
+    color: #ff7187;
+    font: 10px 'Press Start 2P', monospace;
+    line-height: 2;
+    margin-bottom: 30px;
+    text-shadow: 0 0 12px var(--red);
+}
+
+.hero h1 {
+    font: clamp(32px, 12vw, 70px)/1.5 'Press Start 2P', monospace;
+    color: #fff;
+    text-shadow:
+        4px 4px 0 #82001e,
+        0 0 20px rgba(255, 23, 63, 0.8);
+    margin-bottom: 24px;
+}
+
+.hero h1 span {
+    color: var(--red);
+}
+
+.hero-subtitle {
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.hero-description {
+    color: #c9b1bb;
+    font-size: 15px;
+    line-height: 2.2;
+    max-width: 520px;
+    margin-bottom: 36px;
+}
+
+/* Steam 按鈕 */
+.steam-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 17px 28px;
+    min-width: 215px;
+    color: white;
+    background: #b60029;
+    border: 1px solid #ff4565;
+    box-shadow: 0 0 18px rgba(255, 23, 63, 0.45);
+    text-decoration: none;
+    font-weight: 900;
+    letter-spacing: 2px;
+    transition: 0.25s;
+    clip-path: polygon(0 0, 93% 0, 100% 22%, 100% 100%, 7% 100%, 0 78%);
+}
+
+.steam-button:hover {
+    background: #ff174f;
+    color: white;
+    box-shadow: 0 0 35px rgba(255, 23, 63, 0.8);
+    transform: translateY(-3px);
+}
+
+.steam-symbol {
+    font-size: 23px;
+}
+
+.hero-bottom {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    color: #c4a1ad;
+    font: 9px 'Press Start 2P', monospace;
+    line-height: 2;
+}
+
+.hero-bottom span::before {
+    content: "■";
+    color: var(--red);
+    margin-right: 8px;
+}
+
+/* =========================
+   第二區：故事簡介
+========================= */
+
+.story {
+    background:
+        radial-gradient(ellipse at 90% 50%, rgba(110, 0, 28, 0.13), transparent 45%),
+        #0b070a;
+    border-top: 1px solid #44101f;
+    border-bottom: 1px solid #44101f;
+}
+
+.story-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 60px;
+}
+
+.story-image {
+    position: relative;
+    min-height: 330px;
+    overflow: hidden;
+    border: 1px solid #80112d;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 30px,
+            rgba(255, 23, 63, 0.14) 31px,
+            transparent 32px
+        ),
+        linear-gradient(135deg, #280817, #09060b 75%);
+    box-shadow: 0 0 25px rgba(255, 23, 63, 0.1);
+}
+
+/* 純幾何巷弄插畫，不含人物 */
+.story-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, #180710 5%, transparent 40%, transparent 60%, #180710 95%),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 35px,
+            rgba(255, 23, 63, 0.18) 36px 38px,
+            transparent 39px 70px
+        );
+    clip-path: polygon(0 0, 100% 0, 65% 100%, 35% 100%);
+}
+
+.story-image::after {
+    content: "";
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--red);
+    font: 10px 'Press Start 2P', monospace;
+    text-shadow: 0 0 15px var(--red);
+    white-space: nowrap;
+}
+
+.story-image .reflection {
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    width: 60%;
+    height: 38%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0 9px,
+        rgba(255, 23, 63, 0.25) 10px 12px,
+        transparent 13px 19px
+    );
+    transform: perspective(150px) rotateX(25deg);
+}
+
+/* =========================
+   第三區：遊戲玩法
+========================= */
+
+.gameplay {
+    background: #080608;
+}
+
+.gameplay-intro {
+    max-width: 620px;
+    margin-bottom: 45px;
+}
+
+.gameplay-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.game-card {
+    position: relative;
+    padding: 32px 25px;
+    min-height: 250px;
+    border: 1px solid #4b1425;
+    background: linear-gradient(145deg, #180911, #0d080b);
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+.game-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55px;
+    height: 3px;
+    background: var(--red);
+    box-shadow: 0 0 15px var(--red);
+}
+
+.game-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--red);
+    box-shadow: 0 0 25px rgba(255, 23, 63, 0.15);
+}
+
+.game-number {
+    position: absolute;
+    right: 16px;
+    top: 18px;
+    color: #622037;
+    font: 10px 'Press Start 2P', monospace;
+}
+
+.game-icon {
+    color: var(--red);
+    font-size: 34px;
+    margin-bottom: 24px;
+    text-shadow: 0 0 15px var(--red);
+}
+
+.game-card h3 {
+    font-size: 19px;
+    margin-bottom: 14px;
+}
+
+.game-card p {
+    color: var(--gray);
+    font-size: 13px;
+    line-height: 2.1;
+}
+
+/* =========================
+   第四區：世界觀
+========================= */
+
+.world {
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(100, 0, 28, 0.2), transparent 55%),
+        #10070c;
+    border-top: 1px solid #42101e;
+}
+
+.world-panel {
+    position: relative;
+    padding: 45px;
+    border: 1px solid #68152b;
+    background: rgba(7, 5, 8, 0.75);
+    box-shadow: inset 0 0 35px rgba(255, 23, 63, 0.04);
+}
+
+.world-panel::before {
+    content: ;
+    position: absolute;
+    top: -10px;
+    left: 28px;
+    padding: 4px 12px;
+    background: #10070c;
+    color: var(--red);
+    font: 9px 'Press Start 2P', monospace;
+}
+
+.world-layout {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 45px;
+    align-items: center;
+}
+
+.world-art {
+    min-height: 300px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #67152a;
+    background:
+        radial-gradient(ellipse at 50% 30%, #6e122d 0%, transparent 38%),
+        linear-gradient(180deg, #230919, #080609);
+}
+
+/* 無人物未來城市剪影 */
+.world-art .tower {
+    position: absolute;
+    bottom: 0;
+    width: 13%;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 13px,
+            rgba(255, 23, 63, 0.55) 14px 16px,
+            transparent 17px 25px
+        ),
+        #140710;
+    border: 1px solid #571127;
+    box-shadow: 0 0 12px rgba(255, 23, 63, 0.1);
+}
+
+.tower:nth-child(1) {
+    height: 56%;
+    left: 3%;
+}
+
+.tower:nth-child(2) {
+    height: 75%;
+    left: 19%;
+}
+
+.tower:nth-child(3) {
+    height: 48%;
+    left: 36%;
+}
+
+.tower:nth-child(4) {
+    height: 88%;
+    left: 52%;
+}
+
+.tower:nth-child(5) {
+    height: 63%;
+    left: 70%;
+}
+
+.tower:nth-child(6) {
+    height: 77%;
+    left: 85%;
+}
+
+.world-art .horizon {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 25%;
+    background: linear-gradient(180deg, transparent, #060407);
+    border-top: 1px solid #ff173f;
+}
+
+.world-copy .section-text + .section-text {
+    margin-top: 20px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 30px 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: #060407;
+    border-top: 1px solid #451020;
+    color: #866a75;
+    font-size: 11px;
+}
+
+.footer-logo {
+    font: 10px 'Press Start 2P', monospace;
+    color: var(--red);
+}
+
+/* =========================
+   手機版
+========================= */
+
+@media (max-width: 900px) {
+    header {
+        padding: 0 4%;
+    }
+
+    .logo-area {
+        width: 165px;
+        font-size: 8px;
+    }
+
+    nav {
+        gap: 16px;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    .story-layout,
+    .world-layout {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .gameplay-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .world-panel {
+        padding: 35px 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        height: 68px;
+    }
+
+    .logo-area {
+        width: 145px;
+        height: 40px;
+        font-size: 7px;
+    }
+
+    .menu-button {
+        display: block;
+    }
+
+    nav {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        width: 100%;
+        padding: 22px 7%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        background: rgba(8, 6, 8, 0.98);
+        border-bottom: 1px solid var(--red);
+    }
+
+    nav.open {
+        display: flex;
+    }
+
+    section {
+        padding: 80px 7%;
+    }
+
+    .hero {
+        min-height: 90vh;
+        padding: 125px 7% 70px;
+    }
+
+    .hero h1 {
+        font-size: clamp(26px, 8vw, 42px);
+    }
+
+    .hero-tag {
+        font-size: 8px;
+    }
+
+    .hero-description {
+        font-size: 13px;
+    }
+
+    .building {
+        width: 65%;
+        opacity: 0.8;
+    }
+
+    .alley-center {
+        width: 28%;
+        left: 36%;
+    }
+
+    .sign-left {
+        left: 3%;
+        top: 25%;
+    }
+
+    .sign-right {
+        right: 3%;
+        top: 23%;
+    }
+
+    .neon-sign {
+        font-size: 8px;
+        padding: 10px 7px;
+    }
+
+    .hero-bottom {
+        gap: 10px 18px;
+        font-size: 7px;
+    }
+
+    .gameplay-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-card {
+        min-height: 210px;
+    }
+
+    .story-image,
+    .world-art {
+        min-height: 240px;
+    }
+
+    .world-panel {
+        padding: 30px 20px;
+    }
+
+    footer {
+        padding: 25px 7%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <!-- 將來可以把這個區域換成自己的 LOGO 圖片 -->
+
+    <button
+        class="menu-button"
+        id="menuButton"
+        aria-expanded="false"
+        aria-controls="mainNav">
+        MENU ☰
+    </button>
+
+    <nav id="mainNav">
+        <a href="#home">首頁</a>
+        <a href="#story">故事簡介</a>
+        <a href="#gameplay">遊戲玩法</a>
+        <a href="#world">世界觀</a>
+    </nav>
+</header>
+
+<main>
+
+    <!-- 第一區：大標題 -->
+    <section class="hero" id="home">
+
+        <!-- CSS 巷弄背景，沒有任何人物 -->
+        <div class="alley" aria-hidden="true">
+            <div class="building left"></div>
+            <div class="building right"></div>
+            <div class="alley-center"></div>
+            <div class="ground"></div>
+            <div class="wire"></div>
+        </div>
+
+        <div class="neon-sign sign-left" aria-hidden="true">
+            NEON CITY
+        </div>
+
+        <div class="neon-sign sign-right" aria-hidden="true">
+            DANGER
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-tag">
+                
+            </div>
+
+            <h1>
+                血戰<br>
+                <span>I'll be Blood</span>
+            </h1>
+
+            <div class="hero-subtitle">
+            </div>
+
+            <p class="hero-description">
+                
+            </p>
+
+            <!-- 請將網址替換成你們真正的 Steam 商店網址 -->
+            <a
+                class="steam-button"
+                href="https://store.steampowered.com/"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                <span class="steam-symbol">◉</span>
+                Steam 頁面
+                <span>»</span>
+            </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第二區：故事簡介 -->
+    <section class="story" id="story">
+
+        <div class="story-layout">
+
+            <div class="story-content">
+                <div class="section-label">
+                    01 // STORY
+                </div>
+
+                <h2 class="section-title">
+                    故事<span>簡介</span>
+                </h2>
+
+                <p class="section-text">
+                    敬請期待
+                    
+                    
+                    
+                    <br><br>
+                    
+                    
+                    
+                    
+                </p>
+            </div>
+
+            <!-- 純 CSS 像素巷弄裝飾，無人物 -->
+            <div class="story-image" aria-hidden="true">
+                <div class="reflection"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 第三區：遊戲玩法介紹 -->
+    <section class="gameplay" id="gameplay">
+
+        <div class="gameplay-intro">
+            <div class="section-label">
+                02 // GAMEPLAY
+            </div>
+
+            <h2 class="section-title">
+                遊戲<span>玩法介紹</span>
+            </h2>
+
+            <p class="section-text">
+                探索城市、面對危機，利用各種能力與策略，完成您的復仇。
+                
+            </p>
+        </div>
+
+        <div class="gameplay-grid">
+
+            <article class="game-card">
+                <span class="game-number">001</span>
+                <div class="game-icon">▦</div>
+                <h3>戰鬥系統</h3>
+                <p>
+                    面對不同敵人與危險，
+                    運用戰術、武器與技巧，
+                    在戰鬥中尋找突破口。
+                </p>
+            </article>
+
+            <article class="game-card">
+                <span class="game-number">002</span>
+                <div class="game-icon">⌘</div>
+                <h3>能力覺醒</h3>
+                <p>
+                    
+                    
+                    
+                </p>
+            </article>
+
+            <article class="game-card">
+                <span class="game-number">003</span>
+                <div class="game-icon">◈</div>
+                <h3>解鎖武器</h3>
+                <p>
+                    
+                    
+                    
+                </p>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- 第四區：世界觀介紹 -->
+    <section class="world" id="world">
+
+        <div class="world-panel">
+
+            <div class="world-layout">
+
+                <!-- 未來城市像素剪影，無人物 -->
+                <div class="world-art" aria-hidden="true">
+                    <div class="tower"></div>
+                    <div class="tower"></div>
+                    <div class="tower"></div>
+                    <div class="tower"></div>
+                    <div class="tower"></div>
+                    <div class="tower"></div>
+                    <div class="horizon"></div>
+                </div>
+
+                <div class="world-copy">
+                    <div class="section-label">
+                        03 // WORLD
+                    </div>
+
+                    <h2 class="section-title">
+                        世界觀<span>介紹</span>
+                    </h2>
+
+                    <p class="section-text">
+                        敬請期待
+                        
+                        <br><br>
+                        
+                        
+                        
+                        
+                        <br><br>
+                        
+                        
+                        
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- 頁尾 -->
+<footer>
+    <div class="footer-logo">I'll be Blood</div>
+    <div></div>
+    <div>IT'S TIME FOR REVENGE.</div>
+</footer>
+
+<script>
+// 手機版導覽選單
+const menuButton = document.getElementById('menuButton');
+const mainNav = document.getElementById('mainNav');
+
+menuButton.addEventListener('click', () => {
+    const isOpen = mainNav.classList.toggle('open');
+
+    menuButton.setAttribute(
+        'aria-expanded',
+        String(isOpen)
+    );
+});
+
+// 點擊導覽連結後，自動關閉手機選單
+mainNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        mainNav.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+    });
+});
+
+// 導覽列依照目前所在區塊顯示狀態
+const sections = document.querySelectorAll(
+    'main section[id]'
+);
+
+const navLinks = mainNav.querySelectorAll('a');
+
+const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+                const isActive =
+                    link.getAttribute('href') ===
+                    '#' + entry.target.id;
+
+                link.classList.toggle('active', isActive);
+            });
+        }
+    });
+}, {
+    rootMargin: '-25% 0px -60% 0px'
+});
+
+sections.forEach(section => {
+    sectionObserver.observe(section);
+});
+</script>
+
+</body>
+</html>
